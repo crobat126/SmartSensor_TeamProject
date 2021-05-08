@@ -7,7 +7,10 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
+
+import java.text.DecimalFormat;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -22,7 +25,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     TextView txt_State;         // State Variable (상태 표시 : 정상, 경고, 위험)
 
-    float total_Accelerometer;
+    double total_Accelerometer;
+
+    TextView test1;
+    TextView test2;
+    TextView test3;
 
 
     @Override
@@ -41,6 +48,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         objTV_Total_Accelerometer = (TextView) findViewById(R.id.txtTotal_Accelerometer);
 
         txt_State = (TextView) findViewById(R.id.txt_State);
+
+        test1 = (TextView) findViewById(R.id.test1);
+        test2 = (TextView) findViewById(R.id.test2);
+        test3 = (TextView) findViewById(R.id.test3);
+
     }
 
     @Override
@@ -61,24 +73,33 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        switch (sensorEvent.sensor.getType()) {
-            case Sensor.TYPE_ACCELEROMETER:
-                objTV_X_Accelerometer.setText(("X : " + sensorEvent.values[0]));
-                objTV_Y_Accelerometer.setText(("Y : " + sensorEvent.values[1]));
-                objTV_Z_Accelerometer.setText(("Z : " + sensorEvent.values[2]));
-                total_Accelerometer = (float)sensorEvent.values[0] + (float)sensorEvent.values[1] + (float)sensorEvent.values[2];
-                objTV_Total_Accelerometer.setText(("Total : " + total_Accelerometer));
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            double loX = sensorEvent.values[0];     // X축 값
+            double loY = sensorEvent.values[1];     // Y축 값
+            double loZ = sensorEvent.values[2];     // Z축 값
 
-                if (sensorEvent.values[1] < 3){
-                    txt_State.setText("위험");
-                }
-                else if (sensorEvent.values[1] < 6) {
-                    txt_State.setText("경고");
-                }
-                else {
-                    txt_State.setText("정상");
-                }
-                break;
+            objTV_X_Accelerometer.setText(("X : " + loX));
+            objTV_Y_Accelerometer.setText(("Y : " + loY));
+            objTV_Z_Accelerometer.setText(("Z : " + loZ));
+            total_Accelerometer = loX + loY + loZ;
+            objTV_Total_Accelerometer.setText(("Total : " + total_Accelerometer));
+
+            double loAccelerationReader = Math.sqrt(Math.pow(loX, 2)
+                    + Math.pow(loY, 2)
+                    + Math.pow(loZ, 2));
+
+            test1.setText("loAccelerationReader : " + loAccelerationReader);
+
+            DecimalFormat precision = new DecimalFormat("0.00");
+            double ldAccRound = Double.parseDouble(precision.format(loAccelerationReader));
+
+            test2.setText("ldAccRound : " + ldAccRound);
+
+            if (ldAccRound > 0.3d && ldAccRound < 0.5d) {
+                txt_State.setText("호우!!");
+            } else {
+                txt_State.setText("테스트중");
+            }
         }
     }
 
