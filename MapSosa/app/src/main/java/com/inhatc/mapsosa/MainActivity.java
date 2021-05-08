@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 total_Accelerometer = (float)sensorEvent.values[0] + (float)sensorEvent.values[1] + (float)sensorEvent.values[2];
                 objTV_Total_Accelerometer.setText(("Total : " + total_Accelerometer));
 
+                // 테스트용 주석
                 if (sensorEvent.values[1] < 3){
                     txt_State.setText("위험");
                 }
