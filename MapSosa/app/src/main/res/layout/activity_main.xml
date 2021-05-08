@@ -11,45 +11,55 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/txtTitle_Accelerometer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_orange_light"
+            android:text="Accelerometer"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/txtX_Accelerometer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="X : " />
+
+        <TextView
+            android:id="@+id/txtY_Accelerometer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Y : " />
+
+        <TextView
+            android:id="@+id/txtZ_Accelerometer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Z : " />
+
+        <TextView
+            android:id="@+id/txtTotal_Accelerometer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total : " />
+
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/txtTitle_Accelerometer"
+        android:id="@+id/txt_State"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/holo_orange_light"
-        android:text="Accelerometer"
+        android:text="STATE"
+        android:layout_below="@id/LinearLayout_Accelerometer"
         android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
-
-    <TextView
-        android:id="@+id/txtX_Accelerometer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="X : " />
-
-    <TextView
-        android:id="@+id/txtY_Accelerometer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Y : " />
-
-    <TextView
-        android:id="@+id/txtZ_Accelerometer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Z : " />
-
-    <TextView
-        android:id="@+id/txtTotal_Accelerometer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Total : " />
-
-</LinearLayout>
+        android:layout_marginTop="100dp"
+        android:textSize="30dp"/>
 
 </RelativeLayout>

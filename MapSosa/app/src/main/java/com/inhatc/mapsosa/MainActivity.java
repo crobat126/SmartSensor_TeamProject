@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     TextView objTV_Z_Accelerometer;         // Accelerometer Z Variable
     TextView objTV_Total_Accelerometer;     // Total Accelerometer Variable
 
+    TextView txt_State;         // State Variable (상태 표시 : 정상, 경고, 위험)
+
     float total_Accelerometer;
 
 
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         objTV_Y_Accelerometer = (TextView) findViewById(R.id.txtY_Accelerometer);
         objTV_Z_Accelerometer = (TextView) findViewById(R.id.txtZ_Accelerometer);
         objTV_Total_Accelerometer = (TextView) findViewById(R.id.txtTotal_Accelerometer);
+
+        txt_State = (TextView) findViewById(R.id.txt_State);
     }
 
     @Override
@@ -64,6 +68,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 objTV_Z_Accelerometer.setText(("Z : " + sensorEvent.values[2]));
                 total_Accelerometer = (float)sensorEvent.values[0] + (float)sensorEvent.values[1] + (float)sensorEvent.values[2];
                 objTV_Total_Accelerometer.setText(("Total : " + total_Accelerometer));
+
+                if (sensorEvent.values[1] < 3){
+                    txt_State.setText("위험");
+                }
+                else if (sensorEvent.values[1] < 6) {
+                    txt_State.setText("경고");
+                }
+                else {
+                    txt_State.setText("정상");
+                }
                 break;
         }
     }
