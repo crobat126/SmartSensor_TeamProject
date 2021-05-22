@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "824389737298",
+    "project_id": "mapsosa-project",
+    "storage_bucket": "mapsosa-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824389737298:android:9fc6596a0ec6a7e047b88b",
+        "android_client_info": {
+          "package_name": "com.inhatc.mapsosa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824389737298-1di9dvksg7k0mblad41qk4vrvk3uo2tp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDELHgQBsILNRXiVE08Dl_-zN0dE37tUAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824389737298-1di9dvksg7k0mblad41qk4vrvk3uo2tp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
