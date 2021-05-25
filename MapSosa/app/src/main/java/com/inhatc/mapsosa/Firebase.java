@@ -1,6 +1,10 @@
 package com.inhatc.mapsosa;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 public class Firebase extends AppCompatActivity implements View.OnClickListener {
@@ -35,18 +41,41 @@ public class Firebase extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_firebase);
 
         txtFirebase = (TextView) findViewById(R.id.txtFirebase);
         edtPhoneNum = (EditText) findViewById(R.id.edtPhoneNum);
 
         btnInsert = (Button) findViewById(R.id.btnInsert);
         btnInsert.setOnClickListener(this);
-
         myFirebase = FirebaseDatabase.getInstance();    // Get FirebaseDatabase instance
         myDB_Reference = myFirebase.getReference();     // Get Firebase reference
         Phone_Num = new HashMap<>();               // Create HashMap
     }
+
+
+
+    private void getHashKey(){
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (packageInfo == null)
+            Log.e("KeyHash", "KeyHash:null");
+
+        for (Signature signature : packageInfo.signatures) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            } catch (NoSuchAlgorithmException e) {
+                Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
+            }
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
