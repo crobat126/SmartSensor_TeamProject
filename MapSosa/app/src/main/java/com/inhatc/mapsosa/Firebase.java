@@ -32,9 +32,11 @@ public class Firebase extends AppCompatActivity implements View.OnClickListener 
     HashMap<String, Object> Phone_Num = null;
     PhoneNumInfo objCustomerInfo = null;
 
-    TextView txtFirebase;                       // Textview object
-    Button btnInsert;                           // Button object
-    EditText edtPhoneNum;                   // EditText object
+    Button btnId;                           // Button object
+
+    EditText edtId;                   // EditText object Id
+    EditText edtPwd;                  // EditText object Password
+
     String strHeader = "Phone Number";  // Firebase Key
     String strCName = null;
 
@@ -43,19 +45,18 @@ public class Firebase extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firebase);
 
-        txtFirebase = (TextView) findViewById(R.id.txtFirebase);
-        edtPhoneNum = (EditText) findViewById(R.id.edtPhoneNum);
+        edtId = (EditText) findViewById(R.id.edtId);
+        edtPwd = (EditText) findViewById(R.id.edtPwd);
 
-        btnInsert = (Button) findViewById(R.id.btnInsert);
-        btnInsert.setOnClickListener(this);
+        btnId = (Button) findViewById(R.id.btnId);
+        btnId.setOnClickListener(this);
         myFirebase = FirebaseDatabase.getInstance();    // Get FirebaseDatabase instance
         myDB_Reference = myFirebase.getReference();     // Get Firebase reference
         Phone_Num = new HashMap<>();               // Create HashMap
     }
 
 
-
-    private void getHashKey(){
+    private void getHashKey() {
         PackageInfo packageInfo = null;
         try {
             packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
@@ -79,49 +80,49 @@ public class Firebase extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btnInsert:
-                strCName = edtPhoneNum.getText().toString();
-                if (!strCName.equals("")){
-                    Phone_Num.put("Phone Number", strCName);
-                    mSet_FirebaseDatabase(true);    // App -> Firebase DB
-                    mGet_FirebaseDatabase();              // Firebase DB -> App
-                }
-                edtPhoneNum.setText("");
-                break;
-            default:
-                break;
-        }
+//        switch (v.getId()){
+//            case R.id.btnInsert:
+//                strCName = edtPhoneNum.getText().toString();
+//                if (!strCName.equals("")){
+//                    Phone_Num.put("Phone Number", strCName);
+//                    mSet_FirebaseDatabase(true);    // App -> Firebase DB
+//                    mGet_FirebaseDatabase();              // Firebase DB -> App
+//                }
+//                edtPhoneNum.setText("");
+//                break;
+//            default:
+//                break;
+//        }
     }
-
-    // Data : App -> Firebase DB
-    public void mSet_FirebaseDatabase(boolean bFlag) {
-        // bFlag = true(add)/false(delete)
-        if (bFlag){
-            myDB_Reference.child(strHeader).child(strCName).setValue(Phone_Num);
-        }
-    }
-
-    // Data : Firebase DB -> App
-    public void mGet_FirebaseDatabase() {
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                txtFirebase.setText("연동된 번호 : ");
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    String strKey = postSnapshot.getKey();
-                    txtFirebase.append("\n - Phone Number : " + strKey);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError dbError) {
-                // Failed to read value
-                Log.w("TAG : ", "Failed to read value.", dbError.toException());
-            }
-        };
-        Query sortbyName = FirebaseDatabase.getInstance().getReference()
-                .child(strHeader).orderByChild(strCName);
-        sortbyName.addListenerForSingleValueEvent(postListener);
-    }
+//
+//    // Data : App -> Firebase DB
+//    public void mSet_FirebaseDatabase(boolean bFlag) {
+//        // bFlag = true(add)/false(delete)
+//        if (bFlag){
+//            myDB_Reference.child(strHeader).child(strCName).setValue(Phone_Num);
+//        }
+//    }
+//
+//    // Data : Firebase DB -> App
+//    public void mGet_FirebaseDatabase() {
+//        ValueEventListener postListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                txtFirebase.setText("연동된 번호 : ");
+//                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+//                    String strKey = postSnapshot.getKey();
+//                    txtFirebase.append("\n - Phone Number : " + strKey);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError dbError) {
+//                // Failed to read value
+//                Log.w("TAG : ", "Failed to read value.", dbError.toException());
+//            }
+//        };
+//        Query sortbyName = FirebaseDatabase.getInstance().getReference()
+//                .child(strHeader).orderByChild(strCName);
+//        sortbyName.addListenerForSingleValueEvent(postListener);
+//    }
 }

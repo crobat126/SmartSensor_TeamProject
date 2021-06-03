@@ -18,9 +18,9 @@
             app:srcCompat="@drawable/kakao_login_medium_narrow" />
 
         <Button
-            android:id="@+id/btnMessage"
+            android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="연락처등록" />
+            android:text="회원가입" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
