@@ -18,7 +18,6 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
     Button btnMessage;                           // Button object
     private SessionCallback sessionCallback = new SessionCallback();
     Session session;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
