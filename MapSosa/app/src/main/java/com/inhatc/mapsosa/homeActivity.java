@@ -14,19 +14,22 @@ import com.kakao.auth.Session;
 
 public class homeActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ImageButton btnKakao;                           // Button object
-    Button btnRegister;                           // Button object
+    Button main_btnKakao;                       // Button object
+    Button main_btnRegister;                    // Button object
+
     private SessionCallback sessionCallback = new SessionCallback();
     Session session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        btnKakao = (ImageButton) findViewById(R.id.btnKakao);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
-        btnKakao.setOnClickListener(this);
-        btnRegister.setOnClickListener(this);
+        main_btnKakao = (Button) findViewById(R.id.main_btnKakao);
+        main_btnRegister = (Button) findViewById(R.id.main_btnRegister);
+
+        main_btnKakao.setOnClickListener(this);
+        main_btnRegister.setOnClickListener(this);
 
         session = Session.getCurrentSession();
         session.addCallback(sessionCallback);
@@ -36,17 +39,17 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btnKakao:
+            case R.id.main_btnKakao:
                 session.open(AuthType.KAKAO_LOGIN_ALL, homeActivity.this);
-
-
                 break;
-            case R.id.btnRegister:
+
+            case R.id.main_btnRegister:
                 Intent intent = new Intent(
                         getApplicationContext(), // 현재 화면의 제어권자
                         Firebase.class); // 다음 넘어갈 클래스 지정
                 startActivity(intent); //
                 break;
+
             default:
                 break;
         }

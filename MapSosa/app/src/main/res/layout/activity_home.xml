@@ -4,23 +4,116 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".homeActivity">
+    tools:context=".homeActivity"
+    android:background="#f0f0f0">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/main_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="126dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="126dp"
+        android:gravity="center"
+        app:srcCompat="@drawable/mapsosa_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/main_txtId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="73dp"
+        android:layout_marginTop="150dp"
+        android:text="아이디"
+        android:fontFamily="@font/tmoneyroundwindextrabold"
+        android:textColor="#eab564"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/main_edtId"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="73dp"
+        android:layout_marginEnd="73dp"
+        android:ems="12"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/black"
+        android:background="@drawable/custom_edittext"
+        app:layout_constraintStart_toStartOf="@+id/main_txtId"
+        app:layout_constraintTop_toBottomOf="@+id/main_txtId" />
 
-        <ImageButton
-            android:id="@+id/btnKakao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/kakao_login_medium_narrow" />
+    <TextView
+        android:id="@+id/main_txtPwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="73dp"
+        android:layout_marginTop="250dp"
+        android:text="비밀번호"
+        android:fontFamily="@font/tmoneyroundwindextrabold"
+        android:textColor="#eab564"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="회원가입" />
-    </LinearLayout>
+    <EditText
+        android:id="@+id/main_edtPwd"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="73dp"
+        android:layout_marginEnd="73dp"
+        android:ems="12"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/black"
+        android:background="@drawable/custom_edittext"
+        app:layout_constraintStart_toStartOf="@+id/main_txtPwd"
+        app:layout_constraintTop_toBottomOf="@+id/main_txtPwd" />
+
+    <Button
+        android:id="@+id/main_btnLogin"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/custom_button"
+        android:text="로그인"
+        android:fontFamily="@font/maplestory"
+        android:textColor="@android:color/white"
+        android:textSize="19sp"
+        app:layout_constraintStart_toStartOf="@+id/main_txtPwd"
+        app:layout_constraintTop_toBottomOf="@+id/main_edtPwd" />
+
+    <Button
+        android:id="@+id/main_btnRegister"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/custom_button"
+        android:text="회원가입"
+        android:fontFamily="@font/maplestory"
+        android:textColor="@android:color/white"
+        android:textSize="19sp"
+        app:layout_constraintStart_toEndOf="@+id/main_btnLogin"
+        app:layout_constraintTop_toBottomOf="@+id/main_edtPwd"
+        app:layout_constraintEnd_toEndOf="@+id/main_edtPwd"/>
+
+    <Button
+        android:id="@+id/main_btnKakao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="126dp"
+        android:layout_marginEnd="126dp"
+        android:layout_marginTop="35dp"
+        android:background="@drawable/kakao_login_medium_narrow"
+        app:layout_constraintTop_toBottomOf="@+id/main_btnLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+<!--    app:srcCompat="@drawable/kakao_login_medium_narrow"-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>
