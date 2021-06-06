@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MapSosa</string>
     <string name="kakao_app_key">24320fe5bb9294d828fcdf68ea79df4f</string>
-
+    <string name="kakao_scheme">24320fe5bb9294d828fcdf68ea79df4f</string>
+    <string name="kakaolink_host">kakaolink</string>
 
 </resources>

@@ -3,9 +3,11 @@ package com.inhatc.mapsosa;
 import android.content.Intent;
 import android.util.Log;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.kakao.auth.ISessionCallback;
+import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeV2ResponseCallback;
@@ -16,6 +18,8 @@ import com.kakao.util.OptionalBoolean;
 import com.kakao.util.exception.KakaoException;
 
 public class SessionCallback extends AppCompatActivity implements ISessionCallback {
+
+    Session session;
 
     // 로그인에 성공한 상태
     @Override
@@ -78,14 +82,8 @@ public class SessionCallback extends AppCompatActivity implements ISessionCallba
                             } else {
                                 // 프로필 획득 불가
                             }
-                            //화면 이동
-                            Intent intent = new Intent(
-                                    getApplicationContext(), // 현재 화면의 제어권자
-                                    MainActivity.class); // 다음 넘어갈 클래스 지정
-                            startActivity(intent); //
 
-
-
+                            Log.i("KAKAO_API", " 로그인 성공 화면 이동");
                         }
                     }
                 });

@@ -40,7 +40,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.main_btnKakao:
-                session.open(AuthType.KAKAO_LOGIN_ALL, homeActivity.this);
+                loginKaKao();
                 break;
 
             case R.id.main_btnRegister:
@@ -55,6 +55,21 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    private void loginKaKao(){
+        Log.e("SessionCallback :: ", "시작");
+        session.open(AuthType.KAKAO_LOGIN_ALL, homeActivity.this);
+
+        if(session!=null){
+            Log.e("SessionCallback :: ", "Session: " + session.toString());
+            Log.e("SessionCallback :: ", "Session getAccessToken: " + session.getAccessToken());
+            // 로그인 성공 화면 이동
+            Intent intent = new Intent(
+                    getApplicationContext(), // 현재 화면의 제어권자
+                    MainActivity.class); // 다음 넘어갈 클래스 지정
+            startActivity(intent);
+        }
+    }
 
 
 }
