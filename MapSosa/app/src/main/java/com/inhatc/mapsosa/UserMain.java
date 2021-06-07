@@ -23,6 +23,6 @@ public class UserMain extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-
+        // 준호 하이~~
     }
 }
