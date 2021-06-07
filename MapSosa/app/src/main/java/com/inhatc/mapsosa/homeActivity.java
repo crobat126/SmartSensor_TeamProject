@@ -92,7 +92,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
             try {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
-                Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+                Log.d("KeyHash123", Base64.encodeToString(md.digest(), Base64.DEFAULT));
             } catch (NoSuchAlgorithmException e) {
                 Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
             }
@@ -132,7 +132,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         if(session.getAccessToken()!=null){
             // 로그인 성공 화면 이동
             Intent intent = new Intent(
-                    getApplicationContext(), // 현재 화면의 제어권자
+                    homeActivity.this, // 현재 화면의 제어권자
                     MainActivity.class); // 다음 넘어갈 클래스 지정
             startActivity(intent);
         }
@@ -161,7 +161,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             Intent intent = new Intent(
-                                    getApplicationContext(), // 현재 화면의 제어권자
+                                    homeActivity.this, // 현재 화면의 제어권자
                                     UserMain.class); // 다음 넘어갈 클래스 지정
                             startActivity(intent);
                         }
