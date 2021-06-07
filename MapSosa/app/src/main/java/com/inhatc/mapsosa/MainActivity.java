@@ -27,10 +27,17 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 public class MainActivity extends AppCompatActivity  implements View.OnClickListener {
     Session session;
     Button btnKakaoSend;                       // Button object
-
+    Retrofit retrofit;
+    ApiService apiService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("MainActivity :: ", "로그인 성공 페이지");
@@ -38,6 +45,8 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         setContentView(R.layout.activity_main);
 
         session = Session.getCurrentSession();
+        retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).build();
+        apiService = retrofit.create(ApiService.class);
 
         btnKakaoSend = (Button) findViewById(R.id.btnSendKakao);
         btnKakaoSend.setOnClickListener(this);
@@ -63,33 +72,20 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
 
         String result = null;
 
-        // AsyncTask를 통해 HttpURLConnection 수행.
-        NetworkTask networkTask = new NetworkTask(reqURL, null);
-        networkTask.execute();
-        try {
-            // Open the connection
-            URL url = new URL(reqURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            InputStream is = conn.getInputStream();
+        Call<ResponseBody> postComment = apiService.postComment();
+        postComment.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("sendKaKao Response:: ", response.body().toString());
 
-            // Get the stream
-            StringBuilder builder = new StringBuilder();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                builder.append(line);
             }
 
-            // Set the result
-            result = builder.toString();
-        }
-        catch (Exception e) {
-            // Error calling the rest api
-            Log.e("REST_API", "GET method failed: " + e.getMessage());
-            e.printStackTrace();
-        }
-
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("sendKaKao::", "Failed API call with call: " + call +
+                        " + exception: " + t);
+            }
+        });
 
     }
 

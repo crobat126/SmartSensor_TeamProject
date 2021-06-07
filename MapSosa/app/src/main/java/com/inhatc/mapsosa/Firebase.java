@@ -34,7 +34,6 @@ public class Firebase extends AppCompatActivity implements View.OnClickListener 
 
     // HashMap<String, Object> childNode = null;
     HashMap<String, Object> user = null;
-    PhoneNumInfo objCustomerInfo = null;
 
     Button btnId;                     // 아이디 중복확인 버튼
     Button btnPhone;                  // 휴대폰인증 버튼
