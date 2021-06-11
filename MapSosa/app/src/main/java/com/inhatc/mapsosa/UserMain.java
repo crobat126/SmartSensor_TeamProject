@@ -9,8 +9,12 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,8 +29,10 @@ import java.util.concurrent.TimeUnit;
 
 public class UserMain extends AppCompatActivity implements SensorEventListener {
     SensorManager objSMG;
-
     Sensor sensor_Accelerometer;
+
+    Animation anim;
+    ImageView login_executing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,14 @@ public class UserMain extends AppCompatActivity implements SensorEventListener {
         objSMG = (SensorManager)getSystemService(SENSOR_SERVICE);
         sensor_Accelerometer = objSMG.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
+        imgRotation(); // executing 이미지 무한 회전
+    }
+
+    // executing 이미지 무한 회전
+    private void imgRotation() {
+        login_executing = (ImageView) findViewById(R.id.login_executing);
+        anim = AnimationUtils.loadAnimation(this, R.anim.executing_anim);
+        login_executing.setAnimation(anim);
     }
 
     @Override
@@ -62,6 +76,7 @@ public class UserMain extends AppCompatActivity implements SensorEventListener {
                 int yValue = (int) sensorEvent.values[1];
                 int zValue = (int) sensorEvent.values[2];
 
+                // default : 25, 25, 25
                 if (xValue >= 25 || yValue >= 25 || zValue >= 25){
                     showDialog();
                 }
@@ -88,7 +103,7 @@ public class UserMain extends AppCompatActivity implements SensorEventListener {
 //                });
 //        AlertDialog msgDlg = msgBulder.create();
 //        msgDlg.show();
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.MyDialogTheme)
                 .setTitle("낙상이 감지되었습니다!")
                 .setMessage("위험한 상황입니까?")
                 .setPositiveButton("예", new DialogInterface.OnClickListener() {

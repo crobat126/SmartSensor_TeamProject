@@ -7,16 +7,49 @@
     tools:context=".UserMain"
     android:background="#f0f0f0">
 
-    <TextView
-        android:id="@+id/textView"
+    <ImageView
+        android:id="@+id/login_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:text="로그인 화면"
+        android:layout_marginTop="40dp"
         android:gravity="center"
-        android:textSize="50dp"
-        android:textColor="#eab564"
+        app:srcCompat="@drawable/mapsosa_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/login_option"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginStart="50dp"
+        android:background="@drawable/option"
+        android:textSize="19sp"
+        app:layout_constraintStart_toEndOf="@id/login_logo"
+        app:layout_constraintTop_toBottomOf="@+id/login_logo" />
+
+    <ImageView
+        android:id="@+id/login_executing"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/executing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_option"/>
+
+    <TextView
+        android:id="@+id/login_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="낙상 감지 시스템 정상 작동 중"
+        android:fontFamily="@font/tmoneyroundwindextrabold"
+        android:textColor="#eab564"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_executing" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
