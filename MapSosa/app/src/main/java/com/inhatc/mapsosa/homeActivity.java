@@ -133,7 +133,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
             // 로그인 성공 화면 이동
             Intent intent = new Intent(
                     homeActivity.this, // 현재 화면의 제어권자
-                    MainActivity.class); // 다음 넘어갈 클래스 지정
+                    UserMain.class); // 다음 넘어갈 클래스 지정
             startActivity(intent);
         }
     }

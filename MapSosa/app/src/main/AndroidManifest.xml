@@ -16,12 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true">
-        <!-- <meta-data -->
-        <!-- android:name="com.kakao.sdk.AppKey" -->
-        <!-- android:value="@string/kakao_app_key" /> -->
-        <meta-data
-            android:name="com.kakao.sdk.AppKey"
-            android:value="98f337ff6413abeea4135edcd315d291" />
+       <meta-data
+         android:name="com.kakao.sdk.AppKey"
+        android:value="@string/kakao_app_key" />
+
 
         <activity android:name=".IntroActivity">
             <intent-filter>

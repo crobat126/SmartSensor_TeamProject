@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,22 +18,40 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.ButtonObject;
+import com.kakao.message.template.ContentObject;
+import com.kakao.message.template.FeedTemplate;
+import com.kakao.message.template.LinkObject;
+import com.kakao.message.template.SocialObject;
+import com.kakao.message.template.TextTemplate;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
+import com.kakao.sdk.common.KakaoSdk;
+import com.kakao.sdk.network.ApiFactory;
+import com.kakao.sdk.talk.*;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.kakao.auth.Session;
+import com.kakao.util.helper.log.Logger;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class UserMain extends AppCompatActivity implements SensorEventListener {
+public class UserMain extends AppCompatActivity implements SensorEventListener{
     SensorManager objSMG;
     Sensor sensor_Accelerometer;
 
     Animation anim;
     ImageView login_executing;
+
+    Session session;
+    Button btnKakaoSend;                       // Button object
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +63,64 @@ public class UserMain extends AppCompatActivity implements SensorEventListener {
         sensor_Accelerometer = objSMG.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         imgRotation(); // executing 이미지 무한 회전
+
+        session = Session.getCurrentSession();
+
+        btnKakaoSend = (Button) findViewById(R.id.btnSendKakao);
+        btnKakaoSend.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendKaKao();
+            }
+        }) ;
+
+    }
+
+    private void sendKaKao() {
+        String s = "테스트";
+        Log.e("MainActivity :: ", "카카오 메세지 전송시작");
+        String Token = session.getAccessToken();
+        String reqURL = "https://kakao.com/v2/api/talk/memo/default/send";
+        String result = null;
+
+        FeedTemplate params = FeedTemplate
+                .newBuilder(ContentObject.newBuilder("낙상감지위험",
+                        "https://postfiles.pstatic.net/MjAyMTA2MTNfNDgg/MDAxNjIzNTU4Njg1ODE3.pSNW_THy-JH18h5tvhqllKIOeUvgfSD9o7QuIOQLrVkg.FupBHgPNNySfIvQQa-TDQuGAfUZfhRZyW1rIbSC-cUog.PNG.3555186/mapsosa_icon.png?type=w773",
+                        LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
+                                .setMobileWebUrl("https://developers.kakao.com").build())
+                        .setDescrption("낙상감지 위험 상태입니다")
+                        .build())
+                .setSocial(SocialObject.newBuilder().setLikeCount(10).setCommentCount(20)
+                        .setSharedCount(30).setViewCount(40).build())
+                .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("'https://developers.kakao.com").setMobileWebUrl("'https://developers.kakao.com").build()))
+                .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
+                        .setWebUrl("'https://developers.kakao.com")
+                        .setMobileWebUrl("'https://developers.kakao.com")
+                        .setAndroidExecutionParams("key1=value1")
+                        .setIosExecutionParams("key1=value1")
+                        .build()))
+                .build();
+
+
+        Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+        serverCallbackArgs.put("user_id", "${current_user_id}");
+        serverCallbackArgs.put("product_id", "${shared_product_id}");
+
+
+        KakaoLinkService.getInstance().sendDefault(this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+            @Override
+            public void onFailure(ErrorResult errorResult) {
+                Logger.e(errorResult.toString());
+            }
+
+            @Override
+            public void onSuccess(KakaoLinkResponse result) {
+                // 템플릿 밸리데이션과 쿼터 체크가 성공적으로 끝남. 톡에서 정상적으로 보내졌는지 보장은 할 수 없다. 전송 성공 유무는 서버콜백 기능을 이용하여야 한다.
+                Log.e("sendKaKao result :: ", result.toString());
+                Log.e("sendKaKao :: ", "카카오 메세지 onSuccess ");
+
+            }
+        });
     }
 
     // executing 이미지 무한 회전

@@ -27,17 +27,11 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity  implements View.OnClickListener {
     Session session;
     Button btnKakaoSend;                       // Button object
-    Retrofit retrofit;
-    ApiService apiService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("MainActivity :: ", "로그인 성공 페이지");
@@ -45,8 +39,6 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         setContentView(R.layout.activity_main);
 
         session = Session.getCurrentSession();
-        retrofit = new Retrofit.Builder().baseUrl(ApiService.API_URL).build();
-        apiService = retrofit.create(ApiService.class);
 
         btnKakaoSend = (Button) findViewById(R.id.btnSendKakao);
         btnKakaoSend.setOnClickListener(this);
@@ -71,21 +63,6 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         String reqURL = "https://kakao.com/v2/api/talk/memo/default/send";
 
         String result = null;
-
-        Call<ResponseBody> postComment = apiService.postComment();
-        postComment.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("sendKaKao Response:: ", response.body().toString());
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("sendKaKao::", "Failed API call with call: " + call +
-                        " + exception: " + t);
-            }
-        });
 
     }
 
