@@ -66,6 +66,7 @@ public class UserMain extends AppCompatActivity implements SensorEventListener, 
     Sensor sensor_Accelerometer;
 
     Button login_option;
+//    Button login_kakao;
 
     Animation anim;
     ImageView login_executing;
@@ -78,9 +79,9 @@ public class UserMain extends AppCompatActivity implements SensorEventListener, 
     String login_strPhone = null;
     String login_strPhone2 = null;
 
-    Session session;
+    int flag = 0; // 0 : 버튼클릭 X, 1 : 회원 로그인, 2 : 카카오 로그인
 
-    Button login_kakao;       // Button object
+    Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,16 +90,31 @@ public class UserMain extends AppCompatActivity implements SensorEventListener, 
 
         context_user = this;
 
+        flag = ((homeActivity)homeActivity.context_main).btnFlag;
+
         //Object for access sensor device
         objSMG = (SensorManager)getSystemService(SENSOR_SERVICE);
         sensor_Accelerometer = objSMG.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         login_option = (Button) findViewById(R.id.login_option);
         login_option.setOnClickListener(this);
+//        login_kakao = (Button) findViewById(R.id.login_kakao);
+//        login_kakao.setOnClickListener(this);
 
         login_txtHeader = (TextView) findViewById(R.id.login_txtHeader);
-        login_strId = ((homeActivity)homeActivity.context_main).main_strId;
-        login_strPwd = ((homeActivity)homeActivity.context_main).main_strPwd;
+
+        // 회원 로그인
+        if (flag == 1) {
+            login_strId = ((homeActivity)homeActivity.context_main).main_strId;
+            login_strPwd = ((homeActivity)homeActivity.context_main).main_strPwd;
+        }
+
+        // 카카오 로그인
+        else if (flag == 2) {
+            Log.d("KAKAO_ID", "nickname: " + login_strId);
+            Log.d("homeActivity.KakaoId", "nickname: " + homeActivity.KakaoId);
+            login_strId = homeActivity.KakaoId;
+        }
 
         login_txtHeader.setText(login_strId + "님 환영합니다.");
 
@@ -109,16 +125,56 @@ public class UserMain extends AppCompatActivity implements SensorEventListener, 
 
         user = new HashMap<>();               // Create HashMap
 
+
         mGet_FirebaseDatabase();
         imgRotation(); // executing 이미지 무한 회전
+    }
 
-        login_kakao = (Button) findViewById(R.id.login_kakao);
-        login_kakao.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendKaKao();
+    // executing 이미지 무한 회전
+    private void imgRotation() {
+        login_executing = (ImageView) findViewById(R.id.login_executing);
+        anim = AnimationUtils.loadAnimation(this, R.anim.executing_anim);
+        login_executing.setAnimation(anim);
+    }
+
+    private void getHashKey() {
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (packageInfo == null)
+            Log.e("KeyHash", "KeyHash:null");
+
+        for (Signature signature : packageInfo.signatures) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash123", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            } catch (NoSuchAlgorithmException e) {
+                Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
             }
-        }) ;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.login_option:
+                Intent intent = new Intent(
+                        getApplicationContext(), // 현재 화면의 제어권자
+                        editPhone.class); // 다음 넘어갈 클래스 지정
+                startActivity(intent);
+                break;
+
+//            case R.id.login_kakao:
+//                sendKaKao();
+//                break;
+
+            default:
+                break;
+        }
     }
 
     private void sendKaKao() {
@@ -166,49 +222,6 @@ public class UserMain extends AppCompatActivity implements SensorEventListener, 
 
             }
         });
-    }
-
-    // executing 이미지 무한 회전
-    private void imgRotation() {
-        login_executing = (ImageView) findViewById(R.id.login_executing);
-        anim = AnimationUtils.loadAnimation(this, R.anim.executing_anim);
-        login_executing.setAnimation(anim);
-    }
-
-    private void getHashKey() {
-        PackageInfo packageInfo = null;
-        try {
-            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (packageInfo == null)
-            Log.e("KeyHash", "KeyHash:null");
-
-        for (Signature signature : packageInfo.signatures) {
-            try {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash123", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            } catch (NoSuchAlgorithmException e) {
-                Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
-            }
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.login_option:
-                Intent intent = new Intent(
-                        getApplicationContext(), // 현재 화면의 제어권자
-                        editPhone.class); // 다음 넘어갈 클래스 지정
-                startActivity(intent);
-                break;
-
-            default:
-                break;
-        }
     }
 
     @Override

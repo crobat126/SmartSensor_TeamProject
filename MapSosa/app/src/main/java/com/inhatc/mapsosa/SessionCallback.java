@@ -17,9 +17,10 @@ import com.kakao.usermgmt.response.model.UserAccount;
 import com.kakao.util.OptionalBoolean;
 import com.kakao.util.exception.KakaoException;
 
-public class SessionCallback extends AppCompatActivity implements ISessionCallback {
+public class SessionCallback  extends AppCompatActivity implements ISessionCallback {
 
     Session session;
+
 
     // 로그인에 성공한 상태
     @Override
@@ -50,12 +51,14 @@ public class SessionCallback extends AppCompatActivity implements ISessionCallba
                     @Override
                     public void onSuccess(MeV2Response result) {
                         Log.i("KAKAO_API", "사용자 아이디: " + result.getId());
+                        homeActivity.KakaoId = String.valueOf(result.getId());
 
                         UserAccount kakaoAccount = result.getKakaoAccount();
                         if (kakaoAccount != null) {
 
                             // 이메일
                             String email = kakaoAccount.getEmail();
+                            homeActivity.KakaoId = email;
 
                             if (email != null) {
                                 Log.i("KAKAO_API", "email: " + email);
@@ -76,6 +79,8 @@ public class SessionCallback extends AppCompatActivity implements ISessionCallba
                                 Log.d("KAKAO_API", "profile image: " + profile.getProfileImageUrl());
                                 Log.d("KAKAO_API", "thumbnail image: " + profile.getThumbnailImageUrl());
 
+                                homeActivity.KakaoId = profile.getNickname();
+
                             } else if (kakaoAccount.profileNeedsAgreement() == OptionalBoolean.TRUE) {
                                 // 동의 요청 후 프로필 정보 획득 가능
 
@@ -83,9 +88,11 @@ public class SessionCallback extends AppCompatActivity implements ISessionCallba
                                 // 프로필 획득 불가
                             }
 
-                            Log.i("KAKAO_API", " 로그인 성공 화면 이동");
+
+
                         }
                     }
+
                 });
     }
 }

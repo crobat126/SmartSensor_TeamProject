@@ -25,6 +25,13 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.Session;
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.response.MeV2Response;
+import com.kakao.usermgmt.response.model.Profile;
+import com.kakao.usermgmt.response.model.UserAccount;
+import com.kakao.util.OptionalBoolean;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -33,7 +40,7 @@ import java.util.HashMap;
 public class homeActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static Context context_main; // context 변수 선언
-
+    public static String KakaoId; // KakaoId 변수 선언
     FirebaseDatabase myFirebase;                // Firebase object
     DatabaseReference myDB_Reference = null;    // Firebase DB reference
 
@@ -57,6 +64,8 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
     private SessionCallback sessionCallback = new SessionCallback();
     Session session;
 
+    int btnFlag = 0;  // 0 : 버튼클릭 X, 1 : 회원 로그인, 2 : 카카오 로그인
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,12 +85,16 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         main_edtPwd = (EditText) findViewById(R.id.main_edtPwd);
 
         session = Session.getCurrentSession();
-        session.addCallback(sessionCallback);
+        //session.addCallback(sessionCallback);
 
         myFirebase = FirebaseDatabase.getInstance();    // Get FirebaseDatabase instance
         myDB_Reference = myFirebase.getReference();     // Get Firebase reference
 
         user = new HashMap<>();               // Create HashMap
+    }
+
+    public void seetter(String newId){
+        this.KakaoId = newId;
     }
 
     private void getHashKey() {
@@ -111,6 +124,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         main_strPwd = main_edtPwd.getText().toString();
         switch (v.getId()){
             case R.id.main_btnLogin:
+                btnFlag = 1;
                 mGet_FirebaseDatabase();
                 break;
 
@@ -122,6 +136,7 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.main_btnKakao:
+                btnFlag = 2;
                 loginKaKao();
                 break;
 
@@ -130,18 +145,84 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     private void loginKaKao(){
         Log.e("SessionCallback :: ", "시작");
         session.open(AuthType.KAKAO_LOGIN_ALL, homeActivity.this);
         Log.e("SessionCallback :: ", "Session: " + session.toString());
         Log.e("SessionCallback :: ", "Session getAccessToken: " + session.getAccessToken());
-        if(session.getAccessToken()!=null){
-            // 로그인 성공 화면 이동
-            Intent intent = new Intent(
-                    homeActivity.this, // 현재 화면의 제어권자
-                    UserMain.class); // 다음 넘어갈 클래스 지정
-            startActivity(intent);
-        }
+        Log.e("SessionCallback :: ", "Session getTokenInfo: " + session.getTokenInfo());
+
+        Log.e("SessionCallback :: ", "Session session.isOpenable(): " + session.isOpenable());
+
+        Log.e("SessionCallback :: ", "Session session.getAccessTokenCallback(): " + session.getAccessTokenCallback());
+
+
+        UserManagement.getInstance()
+                .me(new MeV2ResponseCallback() {
+                    @Override
+                    public void onSessionClosed(ErrorResult errorResult) {
+                        Log.e("KAKAO_API", "세션이 닫혀 있음: " + errorResult);
+                    }
+
+                    @Override
+                    public void onFailure(ErrorResult errorResult) {
+                        Log.e("KAKAO_API", "사용자 정보 요청 실패: " + errorResult);
+                    }
+
+                    @Override
+                    public void onSuccess(MeV2Response result) {
+                        Log.i("KAKAO_API", "사용자 아이디: " + result.getId());
+                        homeActivity.KakaoId = String.valueOf(result.getId());
+
+                        UserAccount kakaoAccount = result.getKakaoAccount();
+                        if (kakaoAccount != null) {
+
+                            // 이메일
+                            String email = kakaoAccount.getEmail();
+                            homeActivity.KakaoId = email;
+
+                            if (email != null) {
+                                Log.i("KAKAO_API", "email: " + email);
+
+                            } else if (kakaoAccount.emailNeedsAgreement() == OptionalBoolean.TRUE) {
+                                // 동의 요청 후 이메일 획득 가능
+                                // 단, 선택 동의로 설정되어 있다면 서비스 이용 시나리오 상에서 반드시 필요한 경우에만 요청해야 합니다.
+
+                            } else {
+                                // 이메일 획득 불가
+                            }
+
+                            // 프로필
+                            Profile profile = kakaoAccount.getProfile();
+
+                            if (profile != null) {
+                                Log.d("KAKAO_API", "nickname: " + profile.getNickname());
+                                Log.d("KAKAO_API", "profile image: " + profile.getProfileImageUrl());
+                                Log.d("KAKAO_API", "thumbnail image: " + profile.getThumbnailImageUrl());
+
+                                homeActivity.KakaoId = profile.getNickname();
+
+                            } else if (kakaoAccount.profileNeedsAgreement() == OptionalBoolean.TRUE) {
+                                // 동의 요청 후 프로필 정보 획득 가능
+
+                            } else {
+                                // 프로필 획득 불가
+                            }
+                            Log.i("KAKAO_API", " 로그인 성공 화면 이동");
+                            // 로그인 성공 화면 이동
+                            Intent intent2 = new Intent(
+                                    homeActivity.this, // 현재 화면의 제어권자
+                                    UserMain.class); // 다음 넘어갈 클래스 지정
+                            startActivity(intent2);
+
+                        }
+                    }
+
+                });
+
+
+
     }
 
     // Data : Firebase DB -> App
