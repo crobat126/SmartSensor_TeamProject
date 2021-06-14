@@ -22,7 +22,7 @@
         android:id="@+id/login_txtHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="25dp"
         android:layout_marginStart="20dp"
         android:text="id + 님 환영합니다."
         android:fontFamily="@font/tmoneyroundwindextrabold"
@@ -35,7 +35,7 @@
         android:id="@+id/login_option"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:layout_marginStart="50dp"
         android:background="@drawable/option"
         app:layout_constraintStart_toEndOf="@id/login_logo"
@@ -46,7 +46,7 @@
         android:id="@+id/login_executing"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="30dp"
         app:srcCompat="@drawable/executing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,5 +64,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_executing" />
+
+    <Button
+        android:id="@+id/login_kakao"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="570dp"
+        android:background="@drawable/custom_button2"
+        android:fontFamily="@font/maplestory"
+        android:text="카카오 전송"
+        android:textColor="@android:color/black"
+        android:textSize="19sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
