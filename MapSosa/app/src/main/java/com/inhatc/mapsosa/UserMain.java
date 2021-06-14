@@ -78,6 +78,8 @@ public class UserMain extends AppCompatActivity implements SensorEventListener, 
     String login_strPhone = null;
     String login_strPhone2 = null;
 
+    Session session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +99,8 @@ public class UserMain extends AppCompatActivity implements SensorEventListener, 
         login_strPwd = ((homeActivity)homeActivity.context_main).main_strPwd;
 
         login_txtHeader.setText(login_strId + "님 환영합니다.");
+
+        session = Session.getCurrentSession();
 
         myFirebase = FirebaseDatabase.getInstance();    // Get FirebaseDatabase instance
         myDB_Reference = myFirebase.getReference();     // Get Firebase reference

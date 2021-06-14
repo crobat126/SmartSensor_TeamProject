@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.kakao.auth.Session;
 import com.kakao.usermgmt.response.model.User;
 
 import java.security.MessageDigest;
@@ -56,6 +57,8 @@ public class editPhone extends AppCompatActivity implements View.OnClickListener
     String phone_strPhone = null;
     String phone_strPhone2 = null;
 
+    Session session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +83,8 @@ public class editPhone extends AppCompatActivity implements View.OnClickListener
         phone_btnPhone.setOnClickListener(this);
         phone_btnPhone2.setOnClickListener(this);
         btnEdit.setOnClickListener(this);
+
+        session = Session.getCurrentSession();
 
         myFirebase = FirebaseDatabase.getInstance();    // Get FirebaseDatabase instance
         myDB_Reference = myFirebase.getReference();     // Get Firebase reference
