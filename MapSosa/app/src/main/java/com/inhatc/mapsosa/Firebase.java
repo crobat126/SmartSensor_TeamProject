@@ -37,16 +37,19 @@ public class Firebase extends AppCompatActivity implements View.OnClickListener 
 
     Button btnId;                     // 아이디 중복확인 버튼
     Button btnPhone;                  // 휴대폰인증 버튼
+    Button btnPhone2;                 // 보호자 휴대폰인증 버튼
     Button btnRegister;               // 회원가입 버튼
 
     EditText edtId;                   // 아이디 EditText
     EditText edtPwd;                  // 비밀번호 EditText
     EditText edtPhone;                // 휴대폰번호 EditText
+    EditText edtPhone2;                // 보호자 휴대폰번호 EditText
 
     String strHeader = "USER";        // Firebase Key
     String strId = null;
     String strPwd = null;
     String strPhone = null;
+    String strPhone2 = null;
 
     Integer flagId = 0;               // 0 : 중복확인 전, 1 : 중복, 2 : 중복확인 완료
 
@@ -58,12 +61,15 @@ public class Firebase extends AppCompatActivity implements View.OnClickListener 
         edtId = (EditText) findViewById(R.id.edtId);
         edtPwd = (EditText) findViewById(R.id.edtPwd);
         edtPhone = (EditText) findViewById(R.id.edtPhone);
+        edtPhone2 = (EditText) findViewById(R.id.edtPhone2);
 
         btnId = (Button) findViewById(R.id.btnId);
         btnPhone = (Button) findViewById(R.id.btnPhone);
+        btnPhone2 = (Button) findViewById(R.id.btnPhone2);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         btnId.setOnClickListener(this);
         btnPhone.setOnClickListener(this);
+        btnPhone2.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
 
         myFirebase = FirebaseDatabase.getInstance();    // Get FirebaseDatabase instance
@@ -101,6 +107,7 @@ public class Firebase extends AppCompatActivity implements View.OnClickListener 
         strId = edtId.getText().toString();
         strPwd = edtPwd.getText().toString();
         strPhone = edtPhone.getText().toString();
+        strPhone2 = edtPhone2.getText().toString();
         switch (v.getId()){
             case R.id.btnId:
                 if (!strId.equals("")){
@@ -109,6 +116,7 @@ public class Firebase extends AppCompatActivity implements View.OnClickListener 
                 }
 
             case R.id.btnPhone:
+                // 휴대폰인증 로직
                 break;
 
             case R.id.btnRegister:
@@ -178,10 +186,23 @@ public class Firebase extends AppCompatActivity implements View.OnClickListener 
                     alertDialog.show();
                 }
 
+                else if (strPhone2.equals("")) {
+                    builder.setTitle("오류").setMessage("보호자 휴대폰번호를 입력해주세요.");
+                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            //
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+
                 else {
                     user.put("ID", strId);
                     user.put("Password", strPwd);
                     user.put("Phone Number", strPhone);
+                    user.put("Phone Number 2", strPhone2);
                     mSet_FirebaseDatabase(true);    // App -> Firebase DB
 
                     // 알림창 띄우기

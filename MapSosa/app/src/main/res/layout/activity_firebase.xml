@@ -125,11 +125,50 @@
         app:layout_constraintStart_toEndOf="@+id/edtPhone"
         app:layout_constraintBottom_toBottomOf="@+id/edtPhone" />
 
+    <TextView
+        android:id="@+id/txtPhone2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="430dp"
+        android:text="보호자 휴대폰번호"
+        android:fontFamily="@font/tmoneyroundwindextrabold"
+        android:textColor="#eab564"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtPhone2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="130dp"
+        android:ems="12"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/black"
+        android:background="@drawable/custom_edittext"
+        app:layout_constraintStart_toStartOf="@+id/txtPhone2"
+        app:layout_constraintTop_toBottomOf="@+id/txtPhone2" />
+
+    <Button
+        android:id="@+id/btnPhone2"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:background="@drawable/custom_button"
+        android:text="휴대폰인증"
+        android:fontFamily="@font/maplestory"
+        android:textColor="@android:color/white"
+        android:textSize="19sp"
+        app:layout_constraintStart_toEndOf="@+id/edtPhone2"
+        app:layout_constraintBottom_toBottomOf="@+id/edtPhone2" />
+
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_marginTop="480dp"
+        android:layout_marginTop="530dp"
         android:background="@drawable/custom_button"
         android:text="회원가입"
         android:fontFamily="@font/maplestory"
@@ -141,69 +180,3 @@
         app:layout_constraintTop_toTopOf="@id/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!-- 기존 MapSosa 프로젝트 Accelerometer 값을 이용한 상태 측정 테스트 코드 -->
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    xmlns:tools="http://schemas.android.com/tools"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    tools:context=".MainActivity">-->
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/LinearLayout_Accelerometer"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginLeft="10dp"-->
-<!--        android:layout_marginRight="10dp"-->
-<!--        android:orientation="vertical">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtTitle_Accelerometer"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@android:color/holo_orange_light"-->
-<!--            android:text="Accelerometer"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textStyle="normal|bold" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtX_Accelerometer"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="X : " />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtY_Accelerometer"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Y : " />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtZ_Accelerometer"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Z : " />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/txtTotal_Accelerometer"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Total : " />-->
-
-<!--    </LinearLayout>-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/txt_State"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="STATE"-->
-<!--        android:layout_below="@id/LinearLayout_Accelerometer"-->
-<!--        android:textAlignment="center"-->
-<!--        android:layout_marginTop="50dp"-->
-<!--        android:textSize="30dp"/>-->
-
-<!--</RelativeLayout>-->

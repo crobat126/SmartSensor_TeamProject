@@ -7,19 +7,6 @@
     tools:context=".UserMain"
     android:background="#f0f0f0">
 
-    <Button
-        android:id="@+id/btnSendKakao"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:background="@drawable/custom_button"
-        android:fontFamily="@font/maplestory"
-        android:text="메시지 전송"
-        android:textColor="@android:color/white"
-        android:textSize="19sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="120dp" />
-
     <ImageView
         android:id="@+id/login_logo"
         android:layout_width="wrap_content"
@@ -31,29 +18,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <TextView
+        android:id="@+id/login_txtHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:text="id + 님 환영합니다."
+        android:fontFamily="@font/tmoneyroundwindextrabold"
+        android:textColor="#eab564"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_logo" />
+
     <Button
         android:id="@+id/login_option"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="0dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="50dp"
         android:background="@drawable/option"
-        android:textSize="19sp"
         app:layout_constraintStart_toEndOf="@id/login_logo"
-        app:layout_constraintTop_toBottomOf="@+id/login_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/login_logo"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ImageView
         android:id="@+id/login_executing"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         app:srcCompat="@drawable/executing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_option"/>
 
     <TextView
-        android:id="@+id/login_text"
+        android:id="@+id/login_txtSystem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"

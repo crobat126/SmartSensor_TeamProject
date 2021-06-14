@@ -2,13 +2,21 @@ package com.inhatc.mapsosa;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.telephony.SmsMessage;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,8 +25,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.kakao.auth.Session;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.ButtonObject;
+import com.kakao.message.template.ContentObject;
+import com.kakao.message.template.FeedTemplate;
+import com.kakao.message.template.LinkObject;
+import com.kakao.message.template.SocialObject;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
+import com.kakao.usermgmt.response.model.User;
+import com.kakao.util.helper.log.Logger;
+
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MapActivity extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapView.MapViewEventListener {
 
@@ -32,9 +56,17 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION};
 
+    Session session;
+    Button btnSendSMS;
+    Button btnKakaoSend;       // Button object
+    
+    String map_strPhone2;      // 보호자 휴대폰번호 정보
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        map_strPhone2 = ((UserMain)UserMain.context_user).login_strPhone2;
 
         setContentView(R.layout.activity_map);
         //지도를 띄우자
@@ -62,6 +94,85 @@ public class MapActivity extends AppCompatActivity implements MapView.CurrentLoc
         }else {
             checkRunTimePermission();
         }
+
+        session = Session.getCurrentSession();
+
+        btnSendSMS = (Button) findViewById(R.id.btnSendSMS);
+        btnSendSMS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 실행 함수
+                String phoneNo = map_strPhone2;     // 보호자 휴대폰번호 정보
+                String message = "MapSosa App : 낙상감지가 발생하였습니다!"
+                                    + "\n위도 : " + latitude
+                                    + "\n경도 : " + longtide;
+
+                try {
+                    // 전송
+                    SmsManager smsManager = SmsManager.getDefault();
+                    smsManager.sendTextMessage(phoneNo, null, message, null, null);
+                    Toast.makeText(getApplicationContext(), "전송 완료!", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "SMS 전송 실패", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btnKakaoSend = (Button) findViewById(R.id.btnSendKakao);
+        btnKakaoSend.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendKaKao();
+            }
+        }) ;
+    }
+
+    private void sendKaKao() {
+        String s = "테스트";
+        Log.e("MainActivity :: ", "카카오 메세지 전송시작");
+        String Token = session.getAccessToken();
+        String reqURL = "https://kakao.com/v2/api/talk/memo/default/send";
+        String result = null;
+
+        FeedTemplate params = FeedTemplate
+                .newBuilder(ContentObject.newBuilder("낙상감지위험",
+                        "https://postfiles.pstatic.net/MjAyMTA2MTNfNDgg/MDAxNjIzNTU4Njg1ODE3.pSNW_THy-JH18h5tvhqllKIOeUvgfSD9o7QuIOQLrVkg.FupBHgPNNySfIvQQa-TDQuGAfUZfhRZyW1rIbSC-cUog.PNG.3555186/mapsosa_icon.png?type=w773",
+                        LinkObject.newBuilder().setWebUrl("https://developers.kakao.com")
+                                .setMobileWebUrl("https://developers.kakao.com").build())
+                        .setDescrption("낙상감지 위험 상태입니다")
+                        .build())
+                .setSocial(SocialObject.newBuilder().setLikeCount(10).setCommentCount(20)
+                        .setSharedCount(30).setViewCount(40).build())
+                .addButton(new ButtonObject("웹에서 보기", LinkObject.newBuilder().setWebUrl("'https://developers.kakao.com").setMobileWebUrl("'https://developers.kakao.com").build()))
+                .addButton(new ButtonObject("앱에서 보기", LinkObject.newBuilder()
+                        .setWebUrl("'https://developers.kakao.com")
+                        .setMobileWebUrl("'https://developers.kakao.com")
+                        .setAndroidExecutionParams("key1=value1")
+                        .setIosExecutionParams("key1=value1")
+                        .build()))
+                .build();
+
+
+        Map<String, String> serverCallbackArgs = new HashMap<String, String>();
+        serverCallbackArgs.put("user_id", "${current_user_id}");
+        serverCallbackArgs.put("product_id", "${shared_product_id}");
+
+
+        KakaoLinkService.getInstance().sendDefault(this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+            @Override
+            public void onFailure(ErrorResult errorResult) {
+                Logger.e(errorResult.toString());
+            }
+
+            @Override
+            public void onSuccess(KakaoLinkResponse result) {
+                // 템플릿 밸리데이션과 쿼터 체크가 성공적으로 끝남. 톡에서 정상적으로 보내졌는지 보장은 할 수 없다. 전송 성공 유무는 서버콜백 기능을 이용하여야 한다.
+                Log.e("sendKaKao result :: ", result.toString());
+                Log.e("sendKaKao :: ", "카카오 메세지 onSuccess ");
+
+            }
+        });
     }
 
     @Override

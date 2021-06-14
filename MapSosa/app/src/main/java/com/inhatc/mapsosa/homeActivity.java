@@ -3,6 +3,7 @@ package com.inhatc.mapsosa;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -30,6 +31,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 public class homeActivity extends AppCompatActivity implements View.OnClickListener {
+
+    public static Context context_main; // context 변수 선언
+
     FirebaseDatabase myFirebase;                // Firebase object
     DatabaseReference myDB_Reference = null;    // Firebase DB reference
 
@@ -57,6 +61,8 @@ public class homeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        context_main = this;
 
         main_btnKakao = (Button) findViewById(R.id.main_btnKakao);
         main_btnLogin = (Button) findViewById(R.id.main_btnLogin);

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".editPhone"
+    android:background="#f0f0f0">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="126dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="126dp"
+        android:gravity="center"
+        app:srcCompat="@drawable/mapsosa_editphone_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/phone_txtPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="130dp"
+        android:text="휴대폰번호 : 기존번호"
+        android:fontFamily="@font/tmoneyroundwindextrabold"
+        android:textColor="#eab564"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/phone_edtPhone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="130dp"
+        android:ems="12"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/black"
+        android:background="@drawable/custom_edittext"
+        app:layout_constraintStart_toStartOf="@+id/phone_txtPhone"
+        app:layout_constraintTop_toBottomOf="@+id/phone_txtPhone" />
+
+    <Button
+        android:id="@+id/phone_btnPhone"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:background="@drawable/custom_button"
+        android:text="휴대폰인증"
+        android:fontFamily="@font/maplestory"
+        android:textColor="@android:color/white"
+        android:textSize="19sp"
+        app:layout_constraintStart_toEndOf="@+id/phone_edtPhone"
+        app:layout_constraintBottom_toBottomOf="@+id/phone_edtPhone" />
+
+    <TextView
+        android:id="@+id/phone_txtPhone2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="230dp"
+        android:text="보호자 휴대폰번호 : 기존번호"
+        android:fontFamily="@font/tmoneyroundwindextrabold"
+        android:textColor="#eab564"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/phone_edtPhone2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="130dp"
+        android:ems="12"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/black"
+        android:background="@drawable/custom_edittext"
+        app:layout_constraintStart_toStartOf="@+id/phone_txtPhone2"
+        app:layout_constraintTop_toBottomOf="@+id/phone_txtPhone2" />
+
+    <Button
+        android:id="@+id/phone_btnPhone2"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:background="@drawable/custom_button"
+        android:text="휴대폰인증"
+        android:fontFamily="@font/maplestory"
+        android:textColor="@android:color/white"
+        android:textSize="19sp"
+        app:layout_constraintStart_toEndOf="@+id/phone_edtPhone2"
+        app:layout_constraintBottom_toBottomOf="@+id/phone_edtPhone2" />
+
+    <Button
+        android:id="@+id/btnEdit"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="330dp"
+        android:background="@drawable/custom_button"
+        android:text="번호변경"
+        android:fontFamily="@font/maplestory"
+        android:textColor="@android:color/white"
+        android:textSize="19sp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@+id/logo"
+        app:layout_constraintEnd_toEndOf="@id/logo"
+        app:layout_constraintTop_toTopOf="@id/logo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
